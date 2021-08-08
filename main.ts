@@ -86,6 +86,7 @@ let fball: Sprite = null
 let monster: Sprite = null
 let current_level = 0
 let mySprite: Sprite = null
+game.splash("Dungeon Crawl", "A gives a fireball - use on the monsters.")
 mySprite = sprites.create(img`
     . . . . . . f f f f . . . . . . 
     . . . . f f f 2 2 f f f . . . . 
