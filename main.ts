@@ -69,7 +69,7 @@ function fireBall () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Projectile)
-    fball.startEffect(effects.fire)
+    fball.startEffect(effects.fire, 1000)
     fball.setPosition(mySprite.x, mySprite.y)
     fball.follow(monster, 200)
 }
