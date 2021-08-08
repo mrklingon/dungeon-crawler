@@ -28,6 +28,9 @@ function makeMonster (num: number) {
     tiles.placeOnRandomTile(monster, sprites.dungeon.floorLight0)
     monster.follow(mySprite, 55)
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    fireBall()
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.doorOpenEast, function (sprite, location) {
     game.over(true, effects.confetti)
 })
@@ -47,11 +50,39 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardHole, function (spr
     ChangeLevel(current_level)
     scene.cameraShake(2, 200)
 })
+function fireBall () {
+    fball = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . 5 . 
+        . . . . . . . . . . . . . 5 . . 
+        . . . . . 5 . . . . . . . 5 . . 
+        . . . . . . 5 . . . . . . . . . 
+        . . . . . . 2 2 2 . . . . . . . 
+        . . 2 . . . 2 7 2 . . 2 2 2 2 . 
+        . . . . . . 2 2 2 5 . . . . . . 
+        . . 2 . . . . . . . 5 . . . . . 
+        . . . . . 5 . . . . . 5 . . . . 
+        . . . . 5 . . . 2 . . . . . . . 
+        . . . 5 . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Projectile)
+    fball.startEffect(effects.fire)
+    fball.setPosition(mySprite.x, mySprite.y)
+    fball.follow(monster, 200)
+}
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    fball.destroy()
+    otherSprite.destroy()
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (sprite, location) {
     tiles.setTileAt(tiles.getTileLocation(9, 4), sprites.dungeon.doorOpenEast)
     tiles.setWallAt(tiles.getTileLocation(9, 4), false)
     tiles.setTileAt(tiles.getTileLocation(5, 1), sprites.dungeon.buttonTeal)
 })
+let fball: Sprite = null
 let monster: Sprite = null
 let current_level = 0
 let mySprite: Sprite = null
